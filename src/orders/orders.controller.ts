@@ -1,4 +1,4 @@
-import { Controller, NotImplementedException, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, ParseUUIDPipe } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -7,6 +7,8 @@ import { ChangeOrderStatusDto } from './dto/change-order-status.dto';
 
 @Controller()
 export class OrdersController {
+
+
   constructor(private readonly ordersService: OrdersService) {}
 
   @MessagePattern('createOrder')
@@ -14,7 +16,6 @@ export class OrdersController {
     return this.ordersService.create(createOrderDto);
   }
 
-  /// 1) Integrar el Payload
   @MessagePattern('findAllOrders')
   findAll(@Payload() orderPaginationDto : OrderPaginationDto) {
     console.log(orderPaginationDto, ' controller')
