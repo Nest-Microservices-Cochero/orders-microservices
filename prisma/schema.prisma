@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Enum para los posibles estados de una orden
+enum OrdersStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+/// Crear modelo, todo lo que necesitamos para las ordenes
+model Order {
+  // vamos a manejar con uuid
+  id           String @id @default(uuid())
+  totalAmount Float
+  totalItems Int
+  // 
+  status       OrdersStatus @default(PENDING)
+
+  // esto es si esta pagado
+  paid Boolean @default(false)
+  // hay personas que quieren evitar nulos en la db y tiene otra tabla con las ordenes pagas pero no llegaremos a ese nivel de complejidad
+  paidAt DateTime? 
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  /// relaciones con nuestros detalles
+  OrderItem OrderItem[]
+}
+
+/// Modelo que nuestros detalles
+model OrderItem {
+  id String @id @default(uuid())
+
+  productId Int
+
+  quantity Int
+
+  price Float
+
+  /// relación con la orden, de muchos a uno
+  Order Order? @relation(fields: [orderId], references: [id])
+  orderId String
+
+}
