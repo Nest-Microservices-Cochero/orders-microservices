@@ -18,7 +18,7 @@ export class OrdersController {
 
   @MessagePattern('findAllOrders')
   findAll(@Payload() orderPaginationDto : OrderPaginationDto) {
-    console.log(orderPaginationDto, ' controller')
+    console.log(orderPaginationDto, ' controller sdfsf')
     return this.ordersService.findAll(orderPaginationDto);
   }
 

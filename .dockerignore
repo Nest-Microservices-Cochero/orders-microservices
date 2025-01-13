@@ -1,0 +1,10 @@
+# Aca van todos los archivos que quiero ignorar al momento de hacer una construcción
+
+# nada de esto sera parte de nuestra construcción
+dist/
+
+node_modules/
+
+.env
+
+.vscode/
